@@ -14,3 +14,10 @@ after_success:
   - docker build -t prinjor/multi-nginx ./nginx
   - docker build -t prinjor/multi-server ./server
   - docker build -t prinjor/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push prinjor/multi-client
+  - docker push prinjor/multi-nginx
+  - docker push prinjor/multi-server
+  - docker push prinjor/multi-worker
