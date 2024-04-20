@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo the message
-      run: |
-        echo "Hello World"
+        run: |
+          echo "Hello World"
         
