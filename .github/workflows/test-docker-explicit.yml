@@ -1,0 +1,41 @@
+name: Docker course with react
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Build and Test React app
+        run: |
+          docker build -t prinjor/react-test -f ./client/Dockerfile.dev ./client
+          docker run -e CI=true prinjor/react-test npm test
+      
+      - name: Build and push images to Docker Hub
+        run: |
+          docker build -t prinjor/multi-client ./client
+          docker build -t prinjor/multi-nginx ./nginx
+          docker build -t prinjor/multi-server ./server
+          docker build -t prinjor/multi-worker ./worker
+          
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_ID }}" --password-stdin
+          
+          docker push prinjor/multi-client
+          docker push prinjor/multi-nginx
+          docker push prinjor/multi-server
+          docker push prinjor/multi-worker

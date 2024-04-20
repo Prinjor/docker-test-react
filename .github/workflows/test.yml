@@ -1,4 +1,4 @@
-name: Docker course with react
+name: Test github actions
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   hello_world:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Echo the message
         run: |
