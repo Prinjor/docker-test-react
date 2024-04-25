@@ -23,3 +23,15 @@ after_success:
   - docker push prinjor/multi-nginx
   - docker push prinjor/multi-server
   - docker push prinjor/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: "prinjor-multi-docker"
+  env: "Prinjor-multi-docker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-332150451947"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
