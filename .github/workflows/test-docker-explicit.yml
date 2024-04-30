@@ -39,12 +39,6 @@ jobs:
           docker push prinjor/multi-nginx
           docker push prinjor/multi-server
           docker push prinjor/multi-worker
-  deploy:
-    needs: [build]
-    runs-on: ubuntu-22-04
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
       
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
